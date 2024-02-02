@@ -14,6 +14,7 @@ var DB_STANZA_COLLECTION_NAME = "stanza"
 var DB_HOST_INFO_COLLECTION_NAME = "hostinfo"
 var DB_SESSION_INFO_COLLECTION_NAME = "session_info"
 var DB_JOURNAL_DEFAULT_EVENTS_COLLECTION_NAME = "journal_events"
+var DB_JOURNAL_AGGREGATE_EVENTS_COLLECTION_NAME = "agg_events"
 var DB_JOURNAL_PUT_PAGE_EVENTS_COLLECTION_NAME = "put_page_events"
 var DB_JOURNAL_GET_PAGE_EVENTS_COLLECTION_NAME = "get_page_events"
 var DB_JOURNAL_PUT_STANZA_EVENTS_COLLECTION_NAME = "put_stanza_events"
@@ -37,6 +38,10 @@ func GetHostInfoCollection() *mongo.Collection {
 
 func GetDefaultEventsCollection() *mongo.Collection {
 	return GetDB_Unacknowledged().Collection(DB_JOURNAL_DEFAULT_EVENTS_COLLECTION_NAME)
+}
+
+func GetAggregateEventsCollection() *mongo.Collection {
+	return GetDB_Unacknowledged().Collection(DB_JOURNAL_AGGREGATE_EVENTS_COLLECTION_NAME)
 }
 
 func GetPutPageEventsCollection() *mongo.Collection {
