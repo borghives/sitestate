@@ -28,6 +28,11 @@ func (a *Aggregation) Lookup(lookup primitive.M) *Aggregation {
 	return a
 }
 
+func (a *Aggregation) AddFields(field primitive.M) *Aggregation {
+	a.pipeline = append(a.pipeline, primitive.D{{Key: "$addFields", Value: field}})
+	return a
+}
+
 func (a *Aggregation) Pipeline() mongo.Pipeline {
 	return a.pipeline
 }
