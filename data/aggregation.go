@@ -33,6 +33,11 @@ func (a *Aggregation) AddFields(field primitive.M) *Aggregation {
 	return a
 }
 
+func (a *Aggregation) Project(fields primitive.M) *Aggregation {
+	a.pipeline = append(a.pipeline, primitive.D{{Key: "$project", Value: fields}})
+	return a
+}
+
 func (a *Aggregation) Pipeline() mongo.Pipeline {
 	return a.pipeline
 }
