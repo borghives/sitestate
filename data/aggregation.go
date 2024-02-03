@@ -13,12 +13,17 @@ func NewAggregation() *Aggregation {
 	return &Aggregation{}
 }
 
-func (a *Aggregation) AddMatch(filter primitive.M) *Aggregation {
+func (a *Aggregation) Match(filter primitive.M) *Aggregation {
 	a.pipeline = append(a.pipeline, primitive.D{{Key: "$match", Value: filter}})
 	return a
 }
 
-func (a *Aggregation) AddLookup(lookup primitive.M) *Aggregation {
+func (a *Aggregation) Group(group primitive.M) *Aggregation {
+	a.pipeline = append(a.pipeline, primitive.D{{Key: "$group", Value: group}})
+	return a
+}
+
+func (a *Aggregation) Lookup(lookup primitive.M) *Aggregation {
 	a.pipeline = append(a.pipeline, primitive.D{{Key: "$lookup", Value: lookup}})
 	return a
 }
