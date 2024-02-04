@@ -60,6 +60,10 @@ func GetGetStanzaEventsCollection() *mongo.Collection {
 	return GetDB_Unacknowledged().Collection(DB_JOURNAL_GET_STANZA_EVENTS_COLLECTION_NAME)
 }
 
+func GetDayGetPageReportsCollection() *mongo.Collection {
+	return GetDB().Collection("day_getpage")
+}
+
 func EnsurePageIndexes() {
 	models := []mongo.IndexModel{
 		{
@@ -92,10 +96,45 @@ func EnsureEventIndexes() {
 	GetGetPageEventsCollection().Indexes().CreateOne(context.Background(), model)
 	GetPutStanzaEventsCollection().Indexes().CreateOne(context.Background(), model)
 	GetGetStanzaEventsCollection().Indexes().CreateOne(context.Background(), model)
+}
 
+func EnsureReportsIndexes() {
+	models := []mongo.IndexModel{
+		{
+			Keys: bson.D{
+				{Key: "target_id", Value: 1},
+				{Key: "floor", Value: -1},
+				{Key: "ceiling", Value: -1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{Key: "target_id", Value: 1},
+				{Key: "floor", Value: -1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{Key: "target_id", Value: 1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{Key: "floor", Value: -1},
+			},
+		},
+		{
+			Keys: bson.D{
+				{Key: "floor", Value: -1},
+			},
+		},
+	}
+
+	GetDayGetPageReportsCollection().Indexes().CreateMany(context.Background(), models)
 }
 
 func EnsureIndexes() {
 	EnsurePageIndexes()
 	EnsureEventIndexes()
+	EnsureReportsIndexes()
 }
