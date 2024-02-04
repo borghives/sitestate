@@ -64,6 +64,18 @@ func GetDayGetPageReportsCollection() *mongo.Collection {
 	return GetDB().Collection("day_getpage")
 }
 
+func GetDayGetStanzaReportsCollection() *mongo.Collection {
+	return GetDB().Collection("day_getstanza")
+}
+
+func GetDayPutPageReportsCollection() *mongo.Collection {
+	return GetDB().Collection("day_putpage")
+}
+
+func GetDayPutStanzaReportsCollection() *mongo.Collection {
+	return GetDB().Collection("day_putstanza")
+}
+
 func EnsurePageIndexes() {
 	models := []mongo.IndexModel{
 		{
