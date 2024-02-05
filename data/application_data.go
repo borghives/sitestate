@@ -143,6 +143,10 @@ func EnsureReportsIndexes() {
 	}
 
 	GetDayGetPageReportsCollection().Indexes().CreateMany(context.Background(), models)
+	GetDayPutPageReportsCollection().Indexes().CreateMany(context.Background(), models)
+	GetDayGetStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
+	GetDayPutStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
+
 }
 
 func EnsureIndexes() {
