@@ -103,11 +103,30 @@ func EnsureEventIndexes() {
 		Options: options.Index().SetExpireAfterSeconds(12 * 30 * 24 * 60 * 60),
 	}
 
-	GetDefaultEventsCollection().Indexes().CreateOne(context.Background(), model)
-	GetPutPageEventsCollection().Indexes().CreateOne(context.Background(), model)
-	GetGetPageEventsCollection().Indexes().CreateOne(context.Background(), model)
-	GetPutStanzaEventsCollection().Indexes().CreateOne(context.Background(), model)
-	GetGetStanzaEventsCollection().Indexes().CreateOne(context.Background(), model)
+	_, err := GetDefaultEventsCollection().Indexes().CreateOne(context.Background(), model)
+	if err != nil {
+		log.Printf("error creating indexes default event: %s", err)
+	}
+
+	_, err = GetPutPageEventsCollection().Indexes().CreateOne(context.Background(), model)
+	if err != nil {
+		log.Printf("error creating indexes put page event: %s", err)
+	}
+
+	_, err = GetGetPageEventsCollection().Indexes().CreateOne(context.Background(), model)
+	if err != nil {
+		log.Printf("error creating indexes get page event: %s", err)
+	}
+
+	_, err = GetPutStanzaEventsCollection().Indexes().CreateOne(context.Background(), model)
+	if err != nil {
+		log.Printf("error creating indexes put stanza event: %s", err)
+	}
+
+	_, err = GetGetStanzaEventsCollection().Indexes().CreateOne(context.Background(), model)
+	if err != nil {
+		log.Printf("error creating indexes get stanza event: %s", err)
+	}
 }
 
 func EnsureReportsIndexes() {
@@ -142,10 +161,25 @@ func EnsureReportsIndexes() {
 		},
 	}
 
-	GetDayGetPageReportsCollection().Indexes().CreateMany(context.Background(), models)
-	GetDayPutPageReportsCollection().Indexes().CreateMany(context.Background(), models)
-	GetDayGetStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
-	GetDayPutStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
+	_, err := GetDayGetPageReportsCollection().Indexes().CreateMany(context.Background(), models)
+	if err != nil {
+		log.Printf("error creating indexes day get page reports: %s", err)
+	}
+
+	_, err = GetDayPutPageReportsCollection().Indexes().CreateMany(context.Background(), models)
+	if err != nil {
+		log.Printf("error creating indexes day put page reports: %s", err)
+	}
+
+	_, err = GetDayGetStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
+	if err != nil {
+		log.Printf("error creating indexes day get stanza reports: %s", err)
+	}
+
+	_, err = GetDayPutStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
+	if err != nil {
+		log.Printf("error creating indexes day put stanza reports: %s", err)
+	}
 
 }
 
