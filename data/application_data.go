@@ -156,7 +156,7 @@ func EnsureReportsIndexes() {
 		},
 		{
 			Keys: bson.D{
-				{Key: "floor", Value: -1},
+				{Key: "ceiling", Value: -1},
 			},
 		},
 	}
