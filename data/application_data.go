@@ -60,22 +60,6 @@ func GetGetStanzaEventsCollection() *mongo.Collection {
 	return GetDB_Unacknowledged().Collection(DB_JOURNAL_GET_STANZA_EVENTS_COLLECTION_NAME)
 }
 
-func GetDayGetPageReportsCollection() *mongo.Collection {
-	return GetDB().Collection("day_getpage")
-}
-
-func GetDayGetStanzaReportsCollection() *mongo.Collection {
-	return GetDB().Collection("day_getstanza")
-}
-
-func GetDayPutPageReportsCollection() *mongo.Collection {
-	return GetDB().Collection("day_putpage")
-}
-
-func GetDayPutStanzaReportsCollection() *mongo.Collection {
-	return GetDB().Collection("day_putstanza")
-}
-
 func EnsurePageIndexes() {
 	models := []mongo.IndexModel{
 		{
@@ -129,62 +113,7 @@ func EnsureEventIndexes() {
 	}
 }
 
-func EnsureReportsIndexes() {
-	models := []mongo.IndexModel{
-		{
-			Keys: bson.D{
-				{Key: "target_id", Value: 1},
-				{Key: "floor", Value: -1},
-				{Key: "ceiling", Value: -1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{Key: "target_id", Value: 1},
-				{Key: "floor", Value: -1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{Key: "target_id", Value: 1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{Key: "floor", Value: -1},
-			},
-		},
-		{
-			Keys: bson.D{
-				{Key: "ceiling", Value: -1},
-			},
-		},
-	}
-
-	_, err := GetDayGetPageReportsCollection().Indexes().CreateMany(context.Background(), models)
-	if err != nil {
-		log.Printf("error creating indexes day get page reports: %s", err)
-	}
-
-	_, err = GetDayPutPageReportsCollection().Indexes().CreateMany(context.Background(), models)
-	if err != nil {
-		log.Printf("error creating indexes day put page reports: %s", err)
-	}
-
-	_, err = GetDayGetStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
-	if err != nil {
-		log.Printf("error creating indexes day get stanza reports: %s", err)
-	}
-
-	_, err = GetDayPutStanzaReportsCollection().Indexes().CreateMany(context.Background(), models)
-	if err != nil {
-		log.Printf("error creating indexes day put stanza reports: %s", err)
-	}
-
-}
-
 func EnsureIndexes() {
 	EnsurePageIndexes()
 	EnsureEventIndexes()
-	EnsureReportsIndexes()
 }

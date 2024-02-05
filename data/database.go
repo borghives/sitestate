@@ -11,6 +11,7 @@ import (
 )
 
 var SEA_DATABASE = "pieriansea"
+var SEA_DATABASE_REPORT = "pierianseareport"
 
 var (
 	client                *mongo.Client
@@ -82,4 +83,8 @@ func GetDB() *mongo.Database {
 
 func GetDB_Unacknowledged() *mongo.Database {
 	return getMongoQuickClient().Database(SEA_DATABASE)
+}
+
+func GetReportDB() *mongo.Database {
+	return getMongoClient().Database(SEA_DATABASE_REPORT)
 }
