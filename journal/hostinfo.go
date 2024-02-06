@@ -14,7 +14,7 @@ func GetHostInfo() sitepages.RutimeHostInfo {
 
 func LogStartHost() {
 	hostInfo := GetHostInfo()
-	log.Printf("START Instance@%s Build:%s Image:%s ", hostInfo.Id, hostInfo.BuildId, hostInfo.ImageId)
+	log.Printf("START Instance@%s Build:%s Image:%s Run: %s", hostInfo.Id, hostInfo.BuildId, hostInfo.ImageId, hostInfo.AppCommand)
 	data.GetHostInfoCollection().InsertOne(context.Background(), hostInfo)
 }
 
