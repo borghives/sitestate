@@ -12,8 +12,8 @@ import (
 )
 
 type EventStat struct {
-	Key  string `bson:"key"`
-	Info string `bson:"info, omitempty"`
+	Key   string   `bson:"key"`
+	Infos []string `bson:"info, omitempty"`
 }
 
 type EventDocument struct {
@@ -69,11 +69,11 @@ func (e *JournalEvent) SetBulkResult(result *mongo.BulkWriteResult) {
 	e.BulkResult = result
 }
 
-func (e *JournalEvent) AddStat(statKey string, info string) {
-	log.Printf("journal (%s) key: %s, msg: %s", e.ID.Hex(), statKey, info)
+func (e *JournalEvent) AddStat(statKey string, infos ...string) {
+	log.Printf("journal (%s) key: %s, msg: %v", e.ID.Hex(), statKey, infos)
 	e.Statistics = append(e.Statistics, EventStat{
-		Key:  statKey,
-		Info: info,
+		Key:   statKey,
+		Infos: infos,
 	})
 }
 
