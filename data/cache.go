@@ -10,7 +10,7 @@ import (
 var SITE = "site.json"
 
 type SiteCache struct {
-	page   map[string]sitepages.SitePageAgg
+	page   map[string]sitepages.SitePage
 	stanza map[string]sitepages.Stanza
 }
 
@@ -19,9 +19,9 @@ var (
 	cacheOnce sync.Once
 )
 
-func (sc *SiteCache) GetPage(id string) sitepages.SitePageAgg {
+func (sc *SiteCache) GetPage(id string) sitepages.SitePage {
 	if sc == nil {
-		return sitepages.SitePageAgg{}
+		return sitepages.SitePage{}
 	}
 	return sc.page[id]
 }
@@ -38,7 +38,7 @@ func LoadSiteCache() {
 		// TODO: load from disk
 		site := sitepages.LoadSitePages(SITE)
 		cache = &SiteCache{
-			page:   make(map[string]sitepages.SitePageAgg),
+			page:   make(map[string]sitepages.SitePage),
 			stanza: make(map[string]sitepages.Stanza),
 		}
 
@@ -54,7 +54,7 @@ func LoadSiteCache() {
 
 func GetCache() *SiteCache {
 	if cache == nil {
-		log.Printf("MongoDB client is not initialized")
+		log.Printf("Cache is not initialized")
 	}
 	return cache
 }
