@@ -14,7 +14,7 @@ var DB_SESSION_INFO_COLLECTION_NAME = "session_info"
 
 func LogSession(session sitepages.WebSession) {
 	opt := options.Update().SetUpsert(true)
-	update := data.NewUpdate().SetDoc(session).SetOnInsert("created_time", time.Now()).CurrentDate("last_seen")
+	update := data.NewUpdate().SetDoc(session).SetOnInsert("event_at", time.Now()).CurrentDate("last_seen")
 
 	result, err := data.GetSessionInfoCollection().UpdateByID(context.Background(), session.ID, update.ToPrimitive(), opt)
 	if err != nil {
