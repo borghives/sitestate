@@ -18,10 +18,11 @@ type EventStat struct {
 
 type EventDocument struct {
 	ID           primitive.ObjectID     `bson:"_id,omitempty"`
-	SessionId    primitive.ObjectID     `bson:"session_id"`
+	HostInfo     primitive.ObjectID     `bson:"host_id"`
+	SessionId    primitive.ObjectID     `bson:"session_id,omitempty"`
 	TargetId     primitive.ObjectID     `bson:"target_id"`
 	Statistics   []EventStat            `bson:"statistics,omitempty"`
-	EventAt      time.Time              `bson:"event_at,omitempty"`
+	EventAt      time.Time              `bson:"event_at"`
 	Duration     time.Duration          `bson:"duration"`
 	UpdateResult *mongo.UpdateResult    `bson:"update_result,omitempty"`
 	BulkResult   *mongo.BulkWriteResult `bson:"bulk_result,omitempty"`
@@ -29,6 +30,7 @@ type EventDocument struct {
 
 type JournalEvent struct {
 	ID                    primitive.ObjectID
+	HostInfo              sitepages.RutimeHostInfo
 	Session               sitepages.WebSession
 	TargetId              primitive.ObjectID
 	EventCollectionClient *mongo.Collection
@@ -42,6 +44,7 @@ type JournalEvent struct {
 func CreateJournalEvent() *JournalEvent {
 	return &JournalEvent{
 		ID:                    primitive.NewObjectID(),
+		HostInfo:              GetHostInfo(),
 		EventCollectionClient: data.GetDefaultEventsCollection(),
 		EventAt:               time.Now(),
 		Statistics:            []EventStat{},
@@ -82,6 +85,7 @@ func (e *JournalEvent) ToDocument() EventDocument {
 
 	return EventDocument{
 		ID:           e.ID,
+		HostInfo:     e.HostInfo.Id,
 		SessionId:    e.Session.ID,
 		TargetId:     e.TargetId,
 		Statistics:   e.Statistics,
