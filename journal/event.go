@@ -44,7 +44,7 @@ type JournalEvent struct {
 func CreateJournalEvent() *JournalEvent {
 	return &JournalEvent{
 		ID:                    primitive.NewObjectID(),
-		HostInfo:              GetHostInfo(),
+		HostInfo:              sitepages.GetHostInfo(),
 		EventCollectionClient: data.GetDefaultEventsCollection(),
 		EventAt:               time.Now(),
 		Statistics:            []EventStat{},
