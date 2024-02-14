@@ -44,7 +44,7 @@ func LoadSiteCache() {
 
 		for _, page := range site {
 			cache.page[page.ID.Hex()] = page
-			for _, stanza := range page.ContentData {
+			for _, stanza := range page.StanzaData {
 				cache.stanza[stanza.ID.Hex()] = stanza
 			}
 		}
