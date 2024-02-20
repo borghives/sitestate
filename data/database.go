@@ -53,7 +53,7 @@ func InitMongoClient(connectionString string) {
 // getMongoClient returns the instance of the MongoDB client.
 func getMongoClient() *mongo.Client {
 	if client == nil {
-		log.Fatal("MongoDB client is not initialized")
+		InitMongoClient("mongodb://localhost:27017")
 	}
 	return client
 }
