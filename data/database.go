@@ -16,6 +16,7 @@ var SEA_DATABASE_REPORT = "pierianseareport"
 var (
 	client                *mongo.Client
 	client_unacknowledged *mongo.Client
+	isDisconnected        bool
 	once                  sync.Once
 	err                   error
 )
@@ -35,7 +36,9 @@ func InitMongoClient(connectionString string) {
 		}
 
 		log.Println("Connected to MongoDB!")
+		isDisconnected = false
 
+		// Unacknowledged client
 		wc := writeconcern.Unacknowledged()
 		clientOptions.SetWriteConcern(wc)
 		client_unacknowledged, err = mongo.Connect(context.Background(), clientOptions)
@@ -53,7 +56,11 @@ func InitMongoClient(connectionString string) {
 // getMongoClient returns the instance of the MongoDB client.
 func getMongoClient() *mongo.Client {
 	if client == nil {
-		InitMongoClient("mongodb://localhost:27017")
+		if isDisconnected {
+			log.Println("MongoDB client was previously disconnected")
+			return nil
+		}
+		log.Fatal("MongoDB client is not initialized")
 	}
 	return client
 }
@@ -61,6 +68,10 @@ func getMongoClient() *mongo.Client {
 // getMongoQuickClient returns the unacknowledged instance of the MongoDB client.
 func getMongoQuickClient() *mongo.Client {
 	if client_unacknowledged == nil {
+		if isDisconnected {
+			log.Println("MongoDB client was previously disconnected")
+			return nil
+		}
 		log.Fatal("MongoDB client is not initialized")
 	}
 	return client_unacknowledged
@@ -73,6 +84,7 @@ func DisconnectMongoClient() {
 			log.Fatalf("Failed to disconnect MongoDB client: %v", err)
 		}
 		client = nil
+		isDisconnected = true
 		log.Println("Disconnected from MongoDB!")
 	}
 }
