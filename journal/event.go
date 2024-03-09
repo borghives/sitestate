@@ -73,7 +73,7 @@ func (e *JournalEvent) SetBulkResult(result *mongo.BulkWriteResult) {
 }
 
 func (e *JournalEvent) AddStat(statKey string, infos ...string) {
-	log.Printf("journal (%s) key: %s, msg: %v", e.ID.Hex(), statKey, infos)
+	log.Printf("journal (%s:%s) key: %s, msg: %v", e.EventCollectionClient.Name(), e.ID.Hex(), statKey, infos)
 	e.Statistics = append(e.Statistics, EventStat{
 		Key:   statKey,
 		Infos: infos,
