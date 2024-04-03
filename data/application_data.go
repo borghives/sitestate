@@ -10,6 +10,7 @@ import (
 )
 
 var DB_PAGE_COLLECTION_NAME = "page"
+var DB_BUNDLE_COLLECTION_NAME = "bundle"
 var DB_STANZA_COLLECTION_NAME = "stanza"
 var DB_HOST_INFO_COLLECTION_NAME = "hostinfo"
 var DB_SESSION_INFO_COLLECTION_NAME = "session_info"
@@ -22,6 +23,10 @@ var DB_JOURNAL_GET_STANZA_EVENTS_COLLECTION_NAME = "get_stanza_events"
 
 func GetPageCollection() *mongo.Collection {
 	return GetDB().Collection(DB_PAGE_COLLECTION_NAME)
+}
+
+func GetBundleCollection() *mongo.Collection {
+	return GetDB().Collection(DB_BUNDLE_COLLECTION_NAME)
 }
 
 func GetStanzaCollection() *mongo.Collection {
