@@ -72,6 +72,11 @@ func EnsurePageIndexes() {
 				"updated_time": 1,
 			},
 		},
+		{
+			Keys: bson.M{
+				"created_time": -1,
+			},
+		},
 	}
 	_, err := GetPageCollection().Indexes().CreateMany(context.Background(), models)
 	if err != nil {
