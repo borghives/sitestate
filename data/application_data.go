@@ -134,6 +134,7 @@ func EnsureUserIndexes() {
 		Keys: bson.M{
 			"name": 1,
 		},
+		Options: options.Index().SetUnique(true),
 	}
 	_, err = GetUserCollection().Indexes().CreateOne(context.Background(), model)
 	if err != nil {
@@ -144,5 +145,4 @@ func EnsureUserIndexes() {
 func EnsureIndexes() {
 	EnsurePageIndexes()
 	EnsureEventIndexes()
-	EnsureUserIndexes()
 }
