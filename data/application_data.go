@@ -13,6 +13,7 @@ var DB_PAGE_COLLECTION_NAME = "page"
 var DB_BUNDLE_COLLECTION_NAME = "bundle"
 var DB_STANZA_COLLECTION_NAME = "stanza"
 var DB_USER_COLLECTION_NAME = "user"
+var DB_AUTH_SESSION_COLLECTION_NAME = "auth_session"
 var DB_HOST_INFO_COLLECTION_NAME = "hostinfo"
 var DB_SESSION_INFO_COLLECTION_NAME = "session_info"
 
@@ -45,6 +46,10 @@ func GetHostInfoCollection() *mongo.Collection {
 
 func GetUserCollection() *mongo.Collection {
 	return GetAuthDB().Collection(DB_USER_COLLECTION_NAME)
+}
+
+func GetAuthSessionCollection() *mongo.Collection {
+	return GetAuthDB().Collection(DB_AUTH_SESSION_COLLECTION_NAME)
 }
 
 func GetDefaultEventsCollection() *mongo.Collection {
