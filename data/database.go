@@ -12,7 +12,7 @@ import (
 
 var SEA_DATABASE = "pieriansea"
 var SEA_DATABASE_REPORT = "pierianseareport"
-
+var SEA_DATABASE_AUTH = "pierianauth"
 var (
 	client                *mongo.Client
 	client_unacknowledged *mongo.Client
@@ -98,5 +98,9 @@ func GetDB_Unacknowledged() *mongo.Database {
 }
 
 func GetReportDB() *mongo.Database {
+	return getMongoClient().Database(SEA_DATABASE_REPORT)
+}
+
+func GetAuthDB() *mongo.Database {
 	return getMongoClient().Database(SEA_DATABASE_REPORT)
 }
