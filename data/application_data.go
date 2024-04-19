@@ -98,7 +98,7 @@ func EnsurePageIndexes() {
 func EnsureEventIndexes() {
 	model := mongo.IndexModel{
 		Keys: bson.M{
-			"created_at": 1,
+			"event_at": 1,
 		},
 		Options: options.Index().SetExpireAfterSeconds(12 * 30 * 24 * 60 * 60),
 	}
@@ -129,7 +129,20 @@ func EnsureEventIndexes() {
 	}
 }
 
+func EnsureUserIndexes() {
+	model := mongo.IndexModel{
+		Keys: bson.M{
+			"name": 1,
+		},
+	}
+	_, err = GetUserCollection().Indexes().CreateOne(context.Background(), model)
+	if err != nil {
+		log.Printf("error creating indexes for user: %s", err)
+	}
+}
+
 func EnsureIndexes() {
 	EnsurePageIndexes()
 	EnsureEventIndexes()
+	EnsureUserIndexes()
 }
