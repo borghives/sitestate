@@ -102,5 +102,5 @@ func GetReportDB() *mongo.Database {
 }
 
 func GetAuthDB() *mongo.Database {
-	return getMongoClient().Database(SEA_DATABASE_REPORT)
+	return getMongoClient().Database(SEA_DATABASE_AUTH)
 }
