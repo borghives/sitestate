@@ -2,7 +2,9 @@ package data
 
 import (
 	"context"
+	"fmt"
 	"log"
+	"os"
 	"sync"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -15,6 +17,18 @@ var (
 	once           sync.Once
 	err            error
 )
+
+func GetDbConnectionUriFromEnv() string {
+	mongoDBPwd := os.Getenv("SECRET_MONGODB_PWD")
+
+	mongoDBUriFmt := os.Getenv("MONGODB_URI")
+	if mongoDBUriFmt == "" {
+		log.Fatal("MONGODB_URI environment variable must be set")
+	}
+
+	return fmt.Sprintf(mongoDBUriFmt, mongoDBPwd)
+
+}
 
 // InitDbClient initializes the MongoDB client. It will only create one instance.
 func InitDbClient(connectionString string) {
