@@ -29,25 +29,39 @@ type EventDocument struct {
 }
 
 type JournalEvent struct {
-	ID                    primitive.ObjectID
-	HostInfo              sitepages.RutimeHostInfo
-	Session               sitepages.WebSession
-	TargetId              primitive.ObjectID
-	EventCollectionClient *mongo.Collection
-	Statistics            []EventStat
-	EventAt               time.Time
-	DoneAt                time.Time
-	UpdateResult          *mongo.UpdateResult
-	BulkResult            *mongo.BulkWriteResult
+	ID               primitive.ObjectID
+	HostInfo         sitepages.RutimeHostInfo
+	Session          sitepages.WebSession
+	TargetId         primitive.ObjectID
+	JournalEventType data.EventType
+	Statistics       []EventStat
+	EventAt          time.Time
+	DoneAt           time.Time
+	UpdateResult     *mongo.UpdateResult
+	BulkResult       *mongo.BulkWriteResult
+}
+
+var (
+	eventStore data.Events
+	webStore   data.WebApp
+)
+
+func InitializeJournal(store data.Events) {
+	eventStore = store
+
+}
+
+func InitializeWebEvent(store data.WebApp) {
+	webStore = store
 }
 
 func CreateJournalEvent() *JournalEvent {
 	return &JournalEvent{
-		ID:                    primitive.NewObjectID(),
-		HostInfo:              sitepages.GetHostInfo(),
-		EventCollectionClient: data.GetDefaultEventsCollection(),
-		EventAt:               time.Now(),
-		Statistics:            []EventStat{},
+		ID:               primitive.NewObjectID(),
+		HostInfo:         sitepages.GetHostInfo(),
+		JournalEventType: data.EventDefault,
+		EventAt:          time.Now(),
+		Statistics:       []EventStat{},
 	}
 }
 
@@ -55,8 +69,8 @@ func (e *JournalEvent) SetTargetId(targetId primitive.ObjectID) {
 	e.TargetId = targetId
 }
 
-func (e *JournalEvent) SetEventCollection(dbCollection *mongo.Collection) {
-	e.EventCollectionClient = dbCollection
+func (e *JournalEvent) SetJournalEventType(eType data.EventType) {
+	e.JournalEventType = eType
 }
 
 func (e *JournalEvent) SetSession(session sitepages.WebSession) {
@@ -73,7 +87,7 @@ func (e *JournalEvent) SetBulkResult(result *mongo.BulkWriteResult) {
 }
 
 func (e *JournalEvent) AddStat(statKey string, infos ...string) {
-	log.Printf("journal (%s:%s) key: %s, msg: %v", e.EventCollectionClient.Name(), e.ID.Hex(), statKey, infos)
+	log.Printf("journal (%s:%s) key: %s, msg: %v", e.JournalEventType.String(), e.ID.Hex(), statKey, infos)
 	e.Statistics = append(e.Statistics, EventStat{
 		Key:   statKey,
 		Infos: infos,
@@ -99,7 +113,8 @@ func (e *JournalEvent) ToDocument() EventDocument {
 func (e *JournalEvent) Done() {
 	doc := e.ToDocument()
 	log.Printf("Journal %s Event Done: %s, Session: %s, Target: %s, Start: %s, Duration micro sec: %d",
-		e.EventCollectionClient.Name(), doc.ID.Hex(), doc.SessionId.Hex(), doc.TargetId.Hex(), doc.EventAt, doc.Duration.Microseconds())
-	e.EventCollectionClient.InsertOne(context.Background(), doc)
+		e.JournalEventType.String(), doc.ID.Hex(), doc.SessionId.Hex(), doc.TargetId.Hex(), doc.EventAt, doc.Duration.Microseconds())
+
+	eventStore.GetEventStoreByType(e.JournalEventType).InsertOne(context.Background(), doc)
 
 }

@@ -11,7 +11,7 @@ import (
 func LogStartHost() {
 	hostInfo := sitepages.GetHostInfo()
 	log.Printf("START Instance@%s Build:%s Image:%s Run: %s", hostInfo.Id, hostInfo.BuildId, hostInfo.ImageId, hostInfo.AppCommand)
-	data.GetHostInfoCollection().InsertOne(context.Background(), hostInfo)
+	webStore.HostInfo().InsertOne(context.Background(), hostInfo)
 }
 
 func LogStopHost() {
@@ -19,5 +19,5 @@ func LogStopHost() {
 	log.Printf("STOP Instance@%s Build:%s Image:%s ", hostInfo.Id, hostInfo.BuildId, hostInfo.ImageId)
 	updateDirective := data.UpdateOperator{}
 	updateDirective.CurrentDate("end_time")
-	data.GetHostInfoCollection().UpdateByID(context.Background(), hostInfo.Id, updateDirective.ToPrimitive())
+	webStore.HostInfo().UpdateByID(context.Background(), hostInfo.Id, updateDirective.ToPrimitive())
 }

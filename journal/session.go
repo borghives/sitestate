@@ -16,7 +16,7 @@ func LogSession(session sitepages.WebSession) {
 	opt := options.Update().SetUpsert(true)
 	update := data.NewUpdate().SetDoc(session).SetOnInsert("event_at", time.Now()).CurrentDate("last_seen")
 
-	result, err := data.GetSessionInfoCollection().UpdateByID(context.Background(), session.ID, update.ToPrimitive(), opt)
+	result, err := webStore.SessionInfo().UpdateByID(context.Background(), session.ID, update.ToPrimitive(), opt)
 	if err != nil {
 		log.Printf("Error logging session: %v", err)
 		return
