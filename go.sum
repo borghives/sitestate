@@ -6,6 +6,8 @@ github.com/borghives/sitepages v0.3.34 h1:Sp6zJYTct3mbPujfrmP+FLdAqLmkFnP4xkvRbY
 github.com/borghives/sitepages v0.3.34/go.mod h1:SUBc+NItSiax0kg7s4JZ/ou729xHRZ712evzsf5Hxtc=
 github.com/borghives/sitepages v0.3.35 h1:ZufXE3RMv+6z/c8/jStI1e9cnS945mhimPwp7HeR2SE=
 github.com/borghives/sitepages v0.3.35/go.mod h1:SUBc+NItSiax0kg7s4JZ/ou729xHRZ712evzsf5Hxtc=
+github.com/borghives/sitepages v0.3.37 h1:IZY8CFrHTFV6b2bsioG/bwv2Yu6DwK82RlHw5f8ij/E=
+github.com/borghives/sitepages v0.3.37/go.mod h1:SUBc+NItSiax0kg7s4JZ/ou729xHRZ712evzsf5Hxtc=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/golang/snappy v0.0.4 h1:yAGX7huGHXlcLOEtBnF4w7FQwA26wojNCwOYAEhLjQM=
