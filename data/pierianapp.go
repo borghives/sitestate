@@ -4,7 +4,6 @@ import (
 	"context"
 	"log"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -13,35 +12,94 @@ var SEA_DATABASE = "pieriansea"
 var DB_PAGE_COLLECTION_NAME = "page"
 var DB_STANZA_COLLECTION_NAME = "stanza"
 var DB_BUNDLE_COLLECTION_NAME = "bundle"
+var DB_USER_PAGE_COLLECTION_NAME = "user_page"
 
 type Pierian interface {
 	Initialize()
 	Page() *mongo.Collection
 	Stanza() *mongo.Collection
 	Bundle() *mongo.Collection
+	UserToPageRelation() *mongo.Collection
 }
 
 type PierianApp struct{}
 
 func (p *PierianApp) Initialize() {
-	models := []mongo.IndexModel{
+	pageIndex := []mongo.IndexModel{
 		{
-			Keys: bson.M{
+			Keys: M{
 				"link": 1,
 			},
 		},
 		{
-			Keys: bson.M{
+			Keys: M{
 				"updated_time": 1,
 			},
 		},
 		{
-			Keys: bson.M{
+			Keys: M{
 				"created_time": -1,
 			},
 		},
 	}
-	_, err := p.Page().Indexes().CreateMany(context.Background(), models)
+	_, err := p.Page().Indexes().CreateMany(context.Background(), pageIndex)
+	if err != nil {
+		log.Printf("error creating indexes 0: %s", err)
+	}
+
+	relationIndex := []mongo.IndexModel{
+		{
+			Keys: M{
+				"user_id": 1,
+			},
+		},
+		{
+			Keys: M{
+				"page_id": 1,
+			},
+		},
+		{
+			Keys: M{
+				"relation": 1,
+			},
+		},
+		{
+			Keys: M{
+				"event_at": -1,
+			},
+		},
+		{
+			Keys: M{
+				"user_id": 1,
+				"page_id": 1,
+			},
+		},
+		{
+			Keys: M{
+				"user_id":  1,
+				"page_id":  1,
+				"relation": 1,
+			},
+		},
+		{
+			Keys: M{
+				"user_id":  1,
+				"page_id":  1,
+				"relation": 1,
+				"event_at": -1,
+			},
+		},
+		{
+			Keys: M{
+				"user_id":  1,
+				"page_id":  1,
+				"relation": 1,
+				"rank":     -1,
+			},
+		},
+	}
+
+	_, err = p.UserToPageRelation().Indexes().CreateMany(context.Background(), relationIndex)
 	if err != nil {
 		log.Printf("error creating indexes 0: %s", err)
 	}
@@ -57,6 +115,10 @@ func (*PierianApp) Stanza() *mongo.Collection {
 
 func (*PierianApp) Bundle() *mongo.Collection {
 	return GetDatabase(SEA_DATABASE).Collection(DB_BUNDLE_COLLECTION_NAME)
+}
+
+func (*PierianApp) UserToPageRelation() *mongo.Collection {
+	return GetDatabase(SEA_DATABASE).Collection(DB_USER_PAGE_COLLECTION_NAME)
 }
 
 func PierianDataStore() Pierian {

@@ -7,9 +7,15 @@ import (
 	"os"
 	"sync"
 
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+
+type M primitive.M
+type A primitive.A
+type E primitive.E
+type D primitive.D
 
 var (
 	client         *mongo.Client
