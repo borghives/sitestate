@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var SEA_DATABASE = "pieriansea"
@@ -77,9 +78,16 @@ func (p *PierianApp) Initialize() {
 		{
 			Keys: M{
 				"user_id":  1,
+				"relation": 1,
+			},
+		},
+		{
+			Keys: M{
+				"user_id":  1,
 				"page_id":  1,
 				"relation": 1,
 			},
+			Options: options.Index().SetUnique(true),
 		},
 		{
 			Keys: M{
