@@ -43,16 +43,10 @@ type JournalEvent struct {
 
 var (
 	eventStore data.Events
-	webStore   data.WebApp
 )
 
-func InitializeJournal(store data.Events) {
-	eventStore = store
-
-}
-
-func InitializeWebEvent(store data.WebApp) {
-	webStore = store
+func InitializeJournal(event data.Events) {
+	eventStore = event
 }
 
 func CreateJournalEvent() *JournalEvent {

@@ -8,6 +8,12 @@ import (
 	"github.com/borghives/sitestate/data"
 )
 
+var webStore data.Web
+
+func InitializeWebEvent(store data.Web) {
+	webStore = store
+}
+
 func LogStartHost() {
 	hostInfo := sitepages.GetHostInfo()
 	log.Printf("START Instance@%s Build:%s Image:%s Run: %s", hostInfo.Id, hostInfo.BuildId, hostInfo.ImageId, hostInfo.AppCommand)
