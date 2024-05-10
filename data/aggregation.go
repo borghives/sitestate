@@ -38,6 +38,16 @@ func (a *Aggregation) Project(fields primitive.M) *Aggregation {
 	return a
 }
 
+func (a *Aggregation) Sort(fields primitive.M) *Aggregation {
+	a.pipeline = append(a.pipeline, primitive.D{{Key: "$sort", Value: fields}})
+	return a
+}
+
+func (a *Aggregation) Limit(value int64) *Aggregation {
+	a.pipeline = append(a.pipeline, primitive.D{{Key: "$limit", Value: value}})
+	return a
+}
+
 func (a *Aggregation) Pipeline() mongo.Pipeline {
 	return a.pipeline
 }
