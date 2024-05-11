@@ -13,7 +13,6 @@ var SEA_DATABASE = "pieriansea"
 var DB_PAGE_COLLECTION_NAME = "page"
 var DB_STANZA_COLLECTION_NAME = "stanza"
 var DB_BUNDLE_COLLECTION_NAME = "bundle"
-var DB_COMMENT_COLLECTION_NAME = "comment"
 var DB_USER_PAGE_COLLECTION_NAME = "user_page"
 
 type Pierian interface {
@@ -22,7 +21,6 @@ type Pierian interface {
 	Stanza() *mongo.Collection
 	Bundle() *mongo.Collection
 	UserToPageRelation() *mongo.Collection
-	Comment() *mongo.Collection
 }
 
 type PierianApp struct{}
@@ -129,10 +127,6 @@ func (*PierianApp) Bundle() *mongo.Collection {
 
 func (*PierianApp) UserToPageRelation() *mongo.Collection {
 	return GetDatabase(SEA_DATABASE).Collection(DB_USER_PAGE_COLLECTION_NAME)
-}
-
-func (*PierianApp) Comment() *mongo.Collection {
-	return GetDatabase(SEA_DATABASE).Collection(DB_COMMENT_COLLECTION_NAME)
 }
 
 func PierianDataStore() Pierian {
