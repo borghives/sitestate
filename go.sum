@@ -1,5 +1,5 @@
-github.com/borghives/sitepages v0.3.58 h1:I/ejo/P59wRtGNbzVfv8WUgZi1ZEemH1kSuAyXqAKF4=
-github.com/borghives/sitepages v0.3.58/go.mod h1:SUBc+NItSiax0kg7s4JZ/ou729xHRZ712evzsf5Hxtc=
+github.com/borghives/sitepages v0.3.60 h1:d3JG9S3O08RZr9shO2mf12Tbthbb9Vu/uOpBODe4OwQ=
+github.com/borghives/sitepages v0.3.60/go.mod h1:SUBc+NItSiax0kg7s4JZ/ou729xHRZ712evzsf5Hxtc=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/golang/snappy v0.0.4 h1:yAGX7huGHXlcLOEtBnF4w7FQwA26wojNCwOYAEhLjQM=
