@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 
+	"github.com/borghives/sitepages"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -20,7 +21,7 @@ type Pierian interface {
 	Page() *mongo.Collection
 	Stanza() *mongo.Collection
 	Bundle() *mongo.Collection
-	UserToPageRelation() *mongo.Collection
+	Relation(graphType sitepages.RelationGraphType) *mongo.Collection
 }
 
 type PierianApp struct{}
@@ -107,7 +108,7 @@ func (p *PierianApp) Initialize() {
 		},
 	}
 
-	_, err = p.UserToPageRelation().Indexes().CreateMany(context.Background(), relationIndex)
+	_, err = p.Relation(sitepages.RelationGraphType_UserPage).Indexes().CreateMany(context.Background(), relationIndex)
 	if err != nil {
 		log.Printf("error creating indexes 0: %s", err)
 	}
@@ -125,8 +126,13 @@ func (*PierianApp) Bundle() *mongo.Collection {
 	return GetDatabase(SEA_DATABASE).Collection(DB_BUNDLE_COLLECTION_NAME)
 }
 
-func (*PierianApp) UserToPageRelation() *mongo.Collection {
-	return GetDatabase(SEA_DATABASE).Collection(DB_USER_PAGE_COLLECTION_NAME)
+func (*PierianApp) Relation(graphType sitepages.RelationGraphType) *mongo.Collection {
+	database := GetDatabase(SEA_DATABASE)
+	if graphType == sitepages.RelationGraphType_UserPage {
+		return database.Collection(DB_USER_PAGE_COLLECTION_NAME)
+	}
+
+	return nil
 }
 
 func PierianDataStore() Pierian {
