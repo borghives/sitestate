@@ -132,7 +132,7 @@ func (*PierianApp) Relation(graphType sitepages.RelationGraphType) *mongo.Collec
 		return database.Collection(DB_USER_PAGE_COLLECTION_NAME)
 	}
 
-	return database.Collection(graphType.String())
+	return database.Collection("rel_" + graphType.String())
 }
 
 func PierianDataStore() Pierian {
