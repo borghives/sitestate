@@ -3,7 +3,7 @@ module github.com/borghives/sitestate
 go 1.23.0
 
 require (
-	github.com/borghives/sitepages v0.3.73
+	github.com/borghives/sitepages v0.3.75
 	go.mongodb.org/mongo-driver v1.16.1
 )
 
