@@ -38,7 +38,7 @@ func (a *Aggregation) Project(fields primitive.M) *Aggregation {
 	return a
 }
 
-func (a *Aggregation) Sort(fields primitive.M) *Aggregation {
+func (a *Aggregation) Sort(fields primitive.D) *Aggregation {
 	a.pipeline = append(a.pipeline, primitive.D{{Key: "$sort", Value: fields}})
 	return a
 }
