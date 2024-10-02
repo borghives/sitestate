@@ -3,13 +3,13 @@ module github.com/borghives/sitestate
 go 1.23.0
 
 require (
-	github.com/borghives/sitepages v0.3.77
-	go.mongodb.org/mongo-driver v1.16.1
+	github.com/borghives/sitepages v0.3.82
+	go.mongodb.org/mongo-driver v1.17.1
 )
 
 require (
 	github.com/golang/snappy v0.0.4 // indirect
-	github.com/klauspost/compress v1.17.9 // indirect
+	github.com/klauspost/compress v1.17.10 // indirect
 	github.com/montanaflynn/stats v0.7.1 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
 	github.com/xdg-go/scram v1.1.2 // indirect
