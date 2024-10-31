@@ -20,7 +20,9 @@ type Authentication interface {
 	AuthSession() *mongo.Collection
 }
 
-type AuthenticationApp struct{}
+type AuthenticationApp struct {
+	database_name string
+}
 
 func (a *AuthenticationApp) Initialize() {
 	usernameIndex := mongo.IndexModel{
@@ -48,14 +50,26 @@ func (a *AuthenticationApp) Initialize() {
 	}
 }
 
-func (a *AuthenticationApp) User() *mongo.Collection {
-	return GetDatabase(SEA_DATABASE_AUTH).Collection(DB_USER_COLLECTION_NAME)
+func (a AuthenticationApp) GetDatabase() *mongo.Database {
+	return GetDatabase(a.database_name)
 }
 
-func (a *AuthenticationApp) AuthSession() *mongo.Collection {
-	return GetDatabase(SEA_DATABASE_AUTH).Collection(DB_AUTH_SESSION_COLLECTION_NAME)
+func (a AuthenticationApp) User() *mongo.Collection {
+	return a.GetDatabase().Collection(DB_USER_COLLECTION_NAME)
 }
 
-func AuthenticationDataStore() Authentication {
-	return &AuthenticationApp{}
+func (a AuthenticationApp) AuthSession() *mongo.Collection {
+	return a.GetDatabase().Collection(DB_AUTH_SESSION_COLLECTION_NAME)
+}
+
+func AuthenticationDataStore(namespace string) Authentication {
+	if namespace == "" {
+		return &AuthenticationApp{
+			database_name: SEA_DATABASE_AUTH,
+		}
+	} else {
+		return &AuthenticationApp{
+			database_name: namespace + "_auth",
+		}
+	}
 }
