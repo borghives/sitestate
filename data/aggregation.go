@@ -48,7 +48,7 @@ func (a *Aggregation) Limit(value int64) *Aggregation {
 	return a
 }
 
-func (a *Aggregation) Search(fields primitive.D) *Aggregation {
+func (a *Aggregation) Search(fields primitive.M) *Aggregation {
 	a.pipeline = append(a.pipeline, primitive.D{{Key: "$search", Value: fields}})
 	return a
 }
