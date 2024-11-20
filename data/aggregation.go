@@ -1,6 +1,8 @@
 package data
 
 import (
+	"context"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -56,6 +58,10 @@ func (a *Aggregation) Search(fields primitive.M) *Aggregation {
 func (a *Aggregation) AppendFrom(agg *Aggregation) *Aggregation {
 	a.pipeline = append(a.pipeline, agg.pipeline...)
 	return a
+}
+
+func (a *Aggregation) AggregatePipeline(ctx context.Context, collection *mongo.Collection) (*mongo.Cursor, error) {
+	return collection.Aggregate(ctx, a.Pipeline())
 }
 
 func (a *Aggregation) Pipeline() mongo.Pipeline {
