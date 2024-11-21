@@ -61,9 +61,9 @@ func (e *EventsApp) GetStoreByTopic(topic string) *mongo.Collection {
 	return e.Default()
 }
 
-func EventsDataStore(namespace string) Events {
+func EventsDataStore(database_name string) Events {
 	return &EventsApp{
-		database_name: SEA_DATABASE_REPORT_PREFIX + "_" + namespace + "_" + SEA_DATABASE_REPORT_POSTFIX,
+		database_name: database_name,
 		topics:        []string{},
 	}
 }
