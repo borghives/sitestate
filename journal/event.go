@@ -21,6 +21,7 @@ type EventDocument struct {
 	HostInfo     primitive.ObjectID     `bson:"host_id"`
 	SessionId    primitive.ObjectID     `bson:"session_id,omitempty"`
 	TargetId     primitive.ObjectID     `bson:"target_id"`
+	Topic        string                 `bson:"topic"`
 	Statistics   []EventStat            `bson:"statistics,omitempty"`
 	EventAt      time.Time              `bson:"event_at"`
 	Duration     time.Duration          `bson:"duration"`
@@ -96,6 +97,7 @@ func (e *JournalEvent) ToDocument() EventDocument {
 		HostInfo:     e.HostInfo.Id,
 		SessionId:    e.Session.ID,
 		TargetId:     e.TargetId,
+		Topic:        e.Topic,
 		Statistics:   e.Statistics,
 		EventAt:      e.EventAt,
 		Duration:     done.Sub(e.EventAt),
