@@ -11,21 +11,25 @@ type Web interface {
 	SessionInfo() *mongo.Collection
 }
 
-type WebApp struct{}
+type WebApp struct {
+	database_name string
+}
 
 func (w *WebApp) Initialize() {
 }
 
 func (w *WebApp) HostInfo() *mongo.Collection {
-	return GetDatabase(SEA_DATABASE).Collection(DB_HOST_INFO_COLLECTION_NAME)
+	return GetDatabase(w.database_name).Collection(DB_HOST_INFO_COLLECTION_NAME)
 }
 
 func (w *WebApp) SessionInfo() *mongo.Collection {
-	return GetDatabase(SEA_DATABASE).Collection(DB_SESSION_INFO_COLLECTION_NAME)
+	return GetDatabase(w.database_name).Collection(DB_SESSION_INFO_COLLECTION_NAME)
 }
 
 // webapp.go
 
-func WebDataStore() Web {
-	return &WebApp{}
+func WebDataStore(database_name string) Web {
+	return &WebApp{
+		database_name: database_name,
+	}
 }
