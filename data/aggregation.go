@@ -2,7 +2,9 @@ package data
 
 import (
 	"context"
+	"encoding/json"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -66,4 +68,21 @@ func (a *Aggregation) AggregatePipeline(ctx context.Context, collection *mongo.C
 
 func (a *Aggregation) Pipeline() mongo.Pipeline {
 	return a.pipeline
+}
+
+// mainly for debugging
+func (a *Aggregation) JsonString() string {
+	// Convert pipeline to bson.A
+	bsonArray := bson.A{}
+	for _, stage := range a.pipeline {
+		bsonArray = append(bsonArray, stage)
+	}
+
+	// Marshal bson.A to JSON
+	jsonString, err := json.Marshal(bsonArray)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(jsonString)
 }
