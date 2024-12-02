@@ -52,17 +52,12 @@ func (p *PierianApp) Initialize() {
 	relationIndex := []mongo.IndexModel{
 		{
 			Keys: M{
-				"user_id": 1,
+				"subjid": 1,
 			},
 		},
 		{
 			Keys: M{
-				"page_id": 1,
-			},
-		},
-		{
-			Keys: M{
-				"relation": 1,
+				"objid": 1,
 			},
 		},
 		{
@@ -72,39 +67,23 @@ func (p *PierianApp) Initialize() {
 		},
 		{
 			Keys: M{
-				"user_id": 1,
-				"page_id": 1,
+				"subjid": 1,
+				"objid":  1,
 			},
 		},
 		{
 			Keys: M{
-				"user_id":  1,
+				"subjid":   1,
 				"relation": 1,
 			},
 		},
 		{
 			Keys: M{
-				"user_id":  1,
-				"page_id":  1,
+				"subjid":   1,
+				"objid":    1,
 				"relation": 1,
 			},
 			Options: options.Index().SetUnique(true),
-		},
-		{
-			Keys: M{
-				"user_id":  1,
-				"page_id":  1,
-				"relation": 1,
-				"event_at": -1,
-			},
-		},
-		{
-			Keys: M{
-				"user_id":  1,
-				"page_id":  1,
-				"relation": 1,
-				"rank":     -1,
-			},
 		},
 	}
 
