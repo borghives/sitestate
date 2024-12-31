@@ -1,6 +1,6 @@
 module github.com/borghives/sitestate
 
-go 1.23.2
+go 1.23.4
 
 require (
 	github.com/borghives/sitepages v0.5.11
