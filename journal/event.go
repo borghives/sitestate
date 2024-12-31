@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/borghives/sitepages"
 	"github.com/borghives/sitestate/data"
+	"github.com/borghives/websession"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -31,8 +31,8 @@ type EventDocument struct {
 
 type JournalEvent struct {
 	ID           primitive.ObjectID
-	HostInfo     sitepages.RutimeHostInfo
-	Session      sitepages.WebSession
+	HostInfo     websession.RutimeHostInfo
+	Session      websession.Session
 	TargetId     primitive.ObjectID
 	Topic        string
 	Statistics   []EventStat
@@ -53,7 +53,7 @@ func InitializeJournal(event data.Events) {
 func CreateJournalEvent() *JournalEvent {
 	return &JournalEvent{
 		ID:         primitive.NewObjectID(),
-		HostInfo:   sitepages.GetHostInfo(),
+		HostInfo:   websession.GetHostInfo(),
 		Topic:      data.JOURNAL_DEFAULT_EVENTS_NAME,
 		EventAt:    time.Now(),
 		Statistics: []EventStat{},
@@ -68,7 +68,7 @@ func (e *JournalEvent) SetJournalTopic(topic string) {
 	e.Topic = topic
 }
 
-func (e *JournalEvent) SetSession(session sitepages.WebSession) {
+func (e *JournalEvent) SetSession(session websession.Session) {
 	LogSession(session)
 	e.Session = session
 }

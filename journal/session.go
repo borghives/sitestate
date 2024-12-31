@@ -5,14 +5,14 @@ import (
 	"log"
 	"time"
 
-	"github.com/borghives/sitepages"
 	"github.com/borghives/sitestate/data"
+	"github.com/borghives/websession"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 var DB_SESSION_INFO_COLLECTION_NAME = "session_info"
 
-func LogSession(session sitepages.WebSession) {
+func LogSession(session websession.Session) {
 	opt := options.Update().SetUpsert(true)
 	update := data.NewUpdate().SetDoc(session).SetOnInsert("event_at", time.Now()).CurrentDate("last_seen")
 
