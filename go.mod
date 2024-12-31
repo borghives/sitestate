@@ -9,7 +9,7 @@ require (
 )
 
 require (
-	github.com/borghives/entanglement v0.0.10 // indirect
+	github.com/borghives/entanglement v0.0.11 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
