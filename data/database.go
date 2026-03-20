@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/url"
 	"os"
 	"sync"
 
@@ -38,25 +39,6 @@ func GetDbConnectionUriFromEnv() string {
 
 }
 
-// InitDbClient initializes the MongoDB client. It will only create one instance.
-func InitDbClient(connectionString string) {
-	once.Do(func() {
-		client, err = mongo.Connect(options.Client().ApplyURI(connectionString))
-		if err != nil {
-			log.Fatalf("Failed to connect to MongoDB: %v", err)
-		}
-
-		// Optional: Ping the database to verify connection
-		if err = client.Ping(context.Background(), nil); err != nil {
-			log.Fatalf("Failed to ping MongoDB: %v", err)
-		}
-
-		log.Println("Connected to MongoDB!")
-		isDisconnected = false
-
-	})
-}
-
 type mongoDialerWrapper struct {
 	dialer proxy.Dialer
 }
@@ -70,19 +52,30 @@ func (m *mongoDialerWrapper) DialContext(ctx context.Context, network, addr stri
 	return m.dialer.Dial(network, addr)
 }
 
-// InitDbProxyClient initializes the MongoDB client with a SOCKS5 proxy.
-func InitDbProxyClient(connectionString string) {
-	once.Do(func() {
-		// 1. Create a dialer for the SOCKS5 proxy (your Tailscale sidecar)
-		// In Cloud Run sidecars, this is always localhost:1055
-		dialer, err := proxy.SOCKS5("tcp", "localhost:1055", nil, proxy.Direct)
+func connectDbClient(connectionString string, proxyAddress string) (*mongo.Client, error) {
+	clientOptions := options.Client().ApplyURI(connectionString)
+	if proxyAddress != "" {
+		proxyUrl, err := url.Parse(proxyAddress)
 		if err != nil {
-			log.Fatalf("Failed to connect to SOCKS5 proxy: %v", err)
+			return nil, err
 		}
 
-		clientOptions := options.Client().ApplyURI(connectionString).
-			SetDialer(&mongoDialerWrapper{dialer: dialer})
-		client, err = mongo.Connect(clientOptions)
+		dialer, err := proxy.FromURL(proxyUrl, proxy.Direct)
+		if err != nil {
+			return nil, err
+		}
+
+		clientOptions = clientOptions.SetDialer(&mongoDialerWrapper{dialer: dialer})
+	}
+
+	return mongo.Connect(clientOptions)
+}
+
+func InitDbConnection() {
+	once.Do(func() {
+		connectionString := GetDbConnectionUriFromEnv()
+		proxyAddress := os.Getenv("ALL_PROXY")
+		client, err = connectDbClient(connectionString, proxyAddress)
 		if err != nil {
 			log.Fatalf("Failed to connect to MongoDB: %v", err)
 		}
