@@ -1,6 +1,6 @@
 package data
 
-import "go.mongodb.org/mongo-driver/mongo"
+import "go.mongodb.org/mongo-driver/v2/mongo"
 
 var DB_HOST_INFO_COLLECTION_NAME = "hostinfo"
 var DB_SESSION_INFO_COLLECTION_NAME = "session_info"

@@ -4,9 +4,8 @@ import (
 	"context"
 	"encoding/json"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type Aggregation struct {
@@ -17,43 +16,43 @@ func NewAggregation() *Aggregation {
 	return &Aggregation{}
 }
 
-func (a *Aggregation) Match(filter primitive.M) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$match", Value: filter}})
+func (a *Aggregation) Match(filter bson.M) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$match", Value: filter}})
 	return a
 }
 
-func (a *Aggregation) Group(group primitive.M) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$group", Value: group}})
+func (a *Aggregation) Group(group bson.M) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$group", Value: group}})
 	return a
 }
 
-func (a *Aggregation) Lookup(lookup primitive.M) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$lookup", Value: lookup}})
+func (a *Aggregation) Lookup(lookup bson.M) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$lookup", Value: lookup}})
 	return a
 }
 
-func (a *Aggregation) AddFields(field primitive.M) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$addFields", Value: field}})
+func (a *Aggregation) AddFields(field bson.M) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$addFields", Value: field}})
 	return a
 }
 
-func (a *Aggregation) Project(fields primitive.M) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$project", Value: fields}})
+func (a *Aggregation) Project(fields bson.M) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$project", Value: fields}})
 	return a
 }
 
-func (a *Aggregation) Sort(fields primitive.D) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$sort", Value: fields}})
+func (a *Aggregation) Sort(fields bson.D) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$sort", Value: fields}})
 	return a
 }
 
 func (a *Aggregation) Limit(value int64) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$limit", Value: value}})
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$limit", Value: value}})
 	return a
 }
 
-func (a *Aggregation) Search(fields primitive.M) *Aggregation {
-	a.pipeline = append(a.pipeline, primitive.D{{Key: "$search", Value: fields}})
+func (a *Aggregation) Search(fields bson.M) *Aggregation {
+	a.pipeline = append(a.pipeline, bson.D{{Key: "$search", Value: fields}})
 	return a
 }
 

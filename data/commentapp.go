@@ -1,6 +1,6 @@
 package data
 
-import "go.mongodb.org/mongo-driver/mongo"
+import "go.mongodb.org/mongo-driver/v2/mongo"
 
 var DB_COMMENT_COLLECTION_NAME = "comment"
 var DB_USER_COMMENT_COLLECTION_NAME = "user_comment"

@@ -7,8 +7,8 @@ import (
 
 	"github.com/borghives/sitestate/data"
 	"github.com/borghives/websession"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
 )
 
 type EventStat struct {
@@ -17,10 +17,10 @@ type EventStat struct {
 }
 
 type EventDocument struct {
-	ID           primitive.ObjectID     `bson:"_id,omitempty"`
-	HostInfo     primitive.ObjectID     `bson:"host_id"`
-	SessionId    primitive.ObjectID     `bson:"session_id,omitempty"`
-	TargetId     primitive.ObjectID     `bson:"target_id"`
+	ID           bson.ObjectID     `bson:"_id,omitempty"`
+	HostInfo     bson.ObjectID     `bson:"host_id"`
+	SessionId    bson.ObjectID     `bson:"session_id,omitempty"`
+	TargetId     bson.ObjectID     `bson:"target_id"`
 	Topic        string                 `bson:"topic"`
 	Statistics   []EventStat            `bson:"statistics,omitempty"`
 	EventAt      time.Time              `bson:"event_at"`
@@ -30,10 +30,10 @@ type EventDocument struct {
 }
 
 type JournalEvent struct {
-	ID           primitive.ObjectID
+	ID           bson.ObjectID
 	HostInfo     websession.RutimeHostInfo
 	Session      websession.Session
-	TargetId     primitive.ObjectID
+	TargetId     bson.ObjectID
 	Topic        string
 	Statistics   []EventStat
 	EventAt      time.Time
@@ -52,7 +52,7 @@ func InitializeJournal(event data.Events) {
 
 func CreateJournalEvent() *JournalEvent {
 	return &JournalEvent{
-		ID:         primitive.NewObjectID(),
+		ID:         bson.NewObjectID(),
 		HostInfo:   websession.GetHostInfo(),
 		Topic:      data.JOURNAL_DEFAULT_EVENTS_NAME,
 		EventAt:    time.Now(),
@@ -60,7 +60,7 @@ func CreateJournalEvent() *JournalEvent {
 	}
 }
 
-func (e *JournalEvent) SetTargetId(targetId primitive.ObjectID) {
+func (e *JournalEvent) SetTargetId(targetId bson.ObjectID) {
 	e.TargetId = targetId
 }
 
@@ -94,8 +94,8 @@ func (e *JournalEvent) ToDocument() EventDocument {
 
 	return EventDocument{
 		ID:           e.ID,
-		HostInfo:     e.HostInfo.Id,
-		SessionId:    e.Session.ID,
+		HostInfo:     bson.ObjectID(e.HostInfo.Id),
+		SessionId:    bson.ObjectID(e.Session.ID),
 		TargetId:     e.TargetId,
 		Topic:        e.Topic,
 		Statistics:   e.Statistics,

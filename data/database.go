@@ -4,18 +4,20 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net"
 	"os"
 	"sync"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
+	"golang.org/x/net/proxy"
 )
 
-type M primitive.M
-type A primitive.A
-type E primitive.E
-type D primitive.D
+type M bson.M
+type A bson.A
+type E bson.E
+type D bson.D
 
 var (
 	client         *mongo.Client
@@ -39,8 +41,48 @@ func GetDbConnectionUriFromEnv() string {
 // InitDbClient initializes the MongoDB client. It will only create one instance.
 func InitDbClient(connectionString string) {
 	once.Do(func() {
-		clientOptions := options.Client().ApplyURI(connectionString)
-		client, err = mongo.Connect(context.Background(), clientOptions)
+		client, err = mongo.Connect(options.Client().ApplyURI(connectionString))
+		if err != nil {
+			log.Fatalf("Failed to connect to MongoDB: %v", err)
+		}
+
+		// Optional: Ping the database to verify connection
+		if err = client.Ping(context.Background(), nil); err != nil {
+			log.Fatalf("Failed to ping MongoDB: %v", err)
+		}
+
+		log.Println("Connected to MongoDB!")
+		isDisconnected = false
+
+	})
+}
+
+type mongoDialerWrapper struct {
+	dialer proxy.Dialer
+}
+
+func (m *mongoDialerWrapper) DialContext(ctx context.Context, network, addr string) (net.Conn, error) {
+	if cd, ok := m.dialer.(interface {
+		DialContext(context.Context, string, string) (net.Conn, error)
+	}); ok {
+		return cd.DialContext(ctx, network, addr)
+	}
+	return m.dialer.Dial(network, addr)
+}
+
+// InitDbProxyClient initializes the MongoDB client with a SOCKS5 proxy.
+func InitDbProxyClient(connectionString string) {
+	once.Do(func() {
+		// 1. Create a dialer for the SOCKS5 proxy (your Tailscale sidecar)
+		// In Cloud Run sidecars, this is always localhost:1055
+		dialer, err := proxy.SOCKS5("tcp", "localhost:1055", nil, proxy.Direct)
+		if err != nil {
+			log.Fatalf("Failed to connect to SOCKS5 proxy: %v", err)
+		}
+
+		clientOptions := options.Client().ApplyURI(connectionString).
+			SetDialer(&mongoDialerWrapper{dialer: dialer})
+		client, err = mongo.Connect(clientOptions)
 		if err != nil {
 			log.Fatalf("Failed to connect to MongoDB: %v", err)
 		}

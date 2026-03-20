@@ -3,20 +3,20 @@ package data
 import (
 	"log"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type UpdateOperator struct {
-	currentDate primitive.M
-	inc         primitive.M
-	min         primitive.M
-	max         primitive.M
-	mul         primitive.M
-	rename      primitive.M
-	set         primitive.M
+	currentDate bson.M
+	inc         bson.M
+	min         bson.M
+	max         bson.M
+	mul         bson.M
+	rename      bson.M
+	set         bson.M
 	setDoc      interface{}
-	setOnInsert primitive.M
-	unset       primitive.M
+	setOnInsert bson.M
+	unset       bson.M
 }
 
 func NewUpdate() *UpdateOperator {
@@ -25,15 +25,15 @@ func NewUpdate() *UpdateOperator {
 
 func (u *UpdateOperator) CurrentDate(key string) *UpdateOperator {
 	if u.currentDate == nil {
-		u.currentDate = primitive.M{}
+		u.currentDate = bson.M{}
 	}
-	u.currentDate[key] = primitive.M{"$type": "date"}
+	u.currentDate[key] = bson.M{"$type": "date"}
 	return u
 }
 
 func (u *UpdateOperator) Inc(key string, value interface{}) *UpdateOperator {
 	if u.inc == nil {
-		u.inc = primitive.M{}
+		u.inc = bson.M{}
 	}
 	u.inc[key] = value
 	return u
@@ -41,7 +41,7 @@ func (u *UpdateOperator) Inc(key string, value interface{}) *UpdateOperator {
 
 func (u *UpdateOperator) Min(key string, value interface{}) *UpdateOperator {
 	if u.min == nil {
-		u.min = primitive.M{}
+		u.min = bson.M{}
 	}
 	u.min[key] = value
 	return u
@@ -49,7 +49,7 @@ func (u *UpdateOperator) Min(key string, value interface{}) *UpdateOperator {
 
 func (u *UpdateOperator) Max(key string, value interface{}) *UpdateOperator {
 	if u.max == nil {
-		u.max = primitive.M{}
+		u.max = bson.M{}
 	}
 	u.max[key] = value
 	return u
@@ -57,7 +57,7 @@ func (u *UpdateOperator) Max(key string, value interface{}) *UpdateOperator {
 
 func (u *UpdateOperator) Mul(key string, value interface{}) *UpdateOperator {
 	if u.mul == nil {
-		u.mul = primitive.M{}
+		u.mul = bson.M{}
 	}
 	u.mul[key] = value
 	return u
@@ -65,7 +65,7 @@ func (u *UpdateOperator) Mul(key string, value interface{}) *UpdateOperator {
 
 func (u *UpdateOperator) Rename(key string, value interface{}) *UpdateOperator {
 	if u.rename == nil {
-		u.rename = primitive.M{}
+		u.rename = bson.M{}
 	}
 	u.rename[key] = value
 	return u
@@ -79,7 +79,7 @@ func (u *UpdateOperator) Set(key string, value interface{}) *UpdateOperator {
 	}
 
 	if u.set == nil {
-		u.set = primitive.M{}
+		u.set = bson.M{}
 	}
 	u.set[key] = value
 	return u
@@ -96,7 +96,7 @@ func (u *UpdateOperator) SetDoc(doc interface{}) *UpdateOperator {
 
 func (u *UpdateOperator) SetOnInsert(key string, value interface{}) *UpdateOperator {
 	if u.setOnInsert == nil {
-		u.setOnInsert = primitive.M{}
+		u.setOnInsert = bson.M{}
 	}
 	u.setOnInsert[key] = value
 	return u
@@ -104,14 +104,14 @@ func (u *UpdateOperator) SetOnInsert(key string, value interface{}) *UpdateOpera
 
 func (u *UpdateOperator) Unset(key string) *UpdateOperator {
 	if u.unset == nil {
-		u.unset = primitive.M{}
+		u.unset = bson.M{}
 	}
 	u.unset[key] = ""
 	return u
 }
 
-func (u *UpdateOperator) ToPrimitive() primitive.M {
-	retval := primitive.M{}
+func (u *UpdateOperator) ToPrimitive() bson.M {
+	retval := bson.M{}
 
 	if u.set != nil {
 		retval["$set"] = u.set

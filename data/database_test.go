@@ -4,8 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 func TestUpdate(t *testing.T) {
@@ -66,7 +65,7 @@ func TestUpdateDoc(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	var doc2 primitive.D
+	var doc2 bson.D
 	err = bson.Unmarshal(blob, &doc2)
 	if err != nil {
 		t.Fatal(err)
