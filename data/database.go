@@ -8,6 +8,7 @@ import (
 	"net/url"
 	"os"
 	"sync"
+	"time"
 
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
@@ -68,8 +69,18 @@ func connectDbClient(connectionString string, proxyAddress string) (*mongo.Clien
 
 		clientOptions = clientOptions.SetDialer(&mongoDialerWrapper{dialer: dialer})
 	}
-
-	return mongo.Connect(clientOptions)
+	for i := range 5 {
+		client, err = mongo.Connect(clientOptions)
+		if err == nil {
+			err = client.Ping(context.Background(), nil)
+		}
+		if err == nil {
+			break // Success!
+		}
+		log.Printf("MongoDb Ping Failed.  Waiting for MongoDB... (attempt %d): %v", i+1, err)
+		time.Sleep(5 * time.Second)
+	}
+	return client, err
 }
 
 func InitDbConnection() {
