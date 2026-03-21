@@ -29,19 +29,13 @@ type PierianApp struct{}
 func (p *PierianApp) Initialize() {
 	pageIndex := []mongo.IndexModel{
 		{
-			Keys: M{
-				"link": 1,
-			},
+			Keys: D{{Key: "link", Value: 1}},
 		},
 		{
-			Keys: M{
-				"updated_time": 1,
-			},
+			Keys: D{{Key: "updated_time", Value: 1}},
 		},
 		{
-			Keys: M{
-				"created_time": -1,
-			},
+			Keys: D{{Key: "created_time", Value: -1}},
 		},
 	}
 	_, err := p.Page().Indexes().CreateMany(context.Background(), pageIndex)
@@ -51,37 +45,31 @@ func (p *PierianApp) Initialize() {
 
 	relationIndex := []mongo.IndexModel{
 		{
-			Keys: M{
-				"subjid": 1,
+			Keys: D{{Key: "subjid", Value: 1}},
+		},
+		{
+			Keys: D{{Key: "objid", Value: 1}},
+		},
+		{
+			Keys: D{{Key: "event_at", Value: -1}},
+		},
+		{
+			Keys: D{
+				{Key: "subjid", Value: 1},
+				{Key: "objid", Value: 1},
 			},
 		},
 		{
-			Keys: M{
-				"objid": 1,
+			Keys: D{
+				{Key: "subjid", Value: 1},
+				{Key: "relation", Value: 1},
 			},
 		},
 		{
-			Keys: M{
-				"event_at": -1,
-			},
-		},
-		{
-			Keys: M{
-				"subjid": 1,
-				"objid":  1,
-			},
-		},
-		{
-			Keys: M{
-				"subjid":   1,
-				"relation": 1,
-			},
-		},
-		{
-			Keys: M{
-				"subjid":   1,
-				"objid":    1,
-				"relation": 1,
+			Keys: D{
+				{Key: "subjid", Value: 1},
+				{Key: "objid", Value: 1},
+				{Key: "relation", Value: 1},
 			},
 			Options: options.Index().SetUnique(true),
 		},

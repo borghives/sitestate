@@ -26,16 +26,12 @@ type AuthenticationApp struct {
 
 func (a *AuthenticationApp) Initialize() {
 	usernameIndex := mongo.IndexModel{
-		Keys: bson.M{
-			"name": 1,
-		},
+		Keys:    bson.D{{Key: "name", Value: 1}},
 		Options: options.Index().SetUnique(true),
 	}
 
 	expireIndex := mongo.IndexModel{
-		Keys: bson.M{
-			"created_time": 1,
-		},
+		Keys:    bson.D{{Key: "created_time", Value: 1}},
 		Options: options.Index().SetExpireAfterSeconds(30 * 24 * 60 * 60),
 	}
 

@@ -35,9 +35,7 @@ func (e *EventsApp) Initialize(topics []string) {
 	e.topics = topics
 
 	model := mongo.IndexModel{
-		Keys: bson.M{
-			"event_at": 1,
-		},
+		Keys:    bson.D{{Key: "event_at", Value: 1}},
 		Options: options.Index().SetExpireAfterSeconds(12 * 30 * 24 * 60 * 60),
 	}
 
