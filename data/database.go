@@ -55,6 +55,7 @@ func (m *mongoDialerWrapper) DialContext(ctx context.Context, network, addr stri
 func connectDbClient(connectionString string, proxyAddress string) (*mongo.Client, error) {
 	clientOptions := options.Client().ApplyURI(connectionString)
 	if proxyAddress != "" {
+		log.Println("Using proxy: ", proxyAddress)
 		proxyUrl, err := url.Parse(proxyAddress)
 		if err != nil {
 			return nil, err
