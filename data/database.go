@@ -35,9 +35,6 @@ func GetDbConnectionUriFromEnv() string {
 		log.Fatal("MONGODB_URI environment variable must be set")
 	}
 
-	if mongoDBPwd == "" {
-		return mongoDBUriFmt
-	}
 	return fmt.Sprintf(mongoDBUriFmt, mongoDBPwd)
 
 }
