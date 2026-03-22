@@ -15,7 +15,7 @@ var adminCmd = &cobra.Command{
 }
 
 // Define the "create" action command
-var initAdminCmd = &cobra.Command{
+var setAdminCmd = &cobra.Command{
 	Use:   "set",
 	Short: "Set a new MongoDB admin",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -35,12 +35,12 @@ var initAdminCmd = &cobra.Command{
 
 func init() {
 	// Add the action to the context
-	adminCmd.AddCommand(initAdminCmd)
+	adminCmd.AddCommand(setAdminCmd)
 
 	// Add the context to the root dbenv command
 	rootCmd.AddCommand(adminCmd)
 
 	// Define flags specifically for the 'create' action
-	initAdminCmd.Flags().StringP("name", "n", "siteadmin", "Name for the new admin.")
-	initAdminCmd.Flags().StringP("password", "p", "", "New admin's password")
+	setAdminCmd.Flags().StringP("name", "n", "siteadmin", "Name for the new admin.")
+	setAdminCmd.Flags().StringP("password", "p", "", "New admin's password")
 }

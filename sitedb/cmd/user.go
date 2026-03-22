@@ -17,7 +17,7 @@ var userCmd = &cobra.Command{
 }
 
 // Define the "create" action command
-var createCmd = &cobra.Command{
+var setUserCmd = &cobra.Command{
 	Use:   "set",
 	Short: "Set a MongoDB user",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -108,14 +108,14 @@ var readWriteDb []string
 
 func init() {
 	// Add the action to the context
-	userCmd.AddCommand(createCmd)
+	userCmd.AddCommand(setUserCmd)
 
 	// Add the context to the root dbenv command
 	rootCmd.AddCommand(userCmd)
 
 	// Define flags specifically for the 'create' action
-	createCmd.Flags().StringP("name", "n", "", "Username for the new user")
-	createCmd.Flags().StringP("password", "p", "", "Password for the new user")
-	createCmd.Flags().StringSliceVarP(&readDb, "read", "r", []string{}, "List of read database (comma-separated or multiple flags)")
-	createCmd.Flags().StringSliceVarP(&readWriteDb, "write", "w", []string{}, "List of readWrite database (comma-separated or multiple flags)")
+	setUserCmd.Flags().StringP("name", "n", "", "Username for the new user")
+	setUserCmd.Flags().StringP("password", "p", "", "Password for the new user")
+	setUserCmd.Flags().StringSliceVarP(&readDb, "read", "r", []string{}, "List of read database (comma-separated or multiple flags)")
+	setUserCmd.Flags().StringSliceVarP(&readWriteDb, "write", "w", []string{}, "List of readWrite database (comma-separated or multiple flags)")
 }
