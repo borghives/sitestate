@@ -71,12 +71,16 @@ func CreateDbUser(client *mongo.Client, username string, newPassword string, rea
 		return err
 	}
 
-	fmt.Printf("Successfully created user: %s\n", username)
+	if isAdmin {
+		fmt.Printf("Successfully created admin: %s\n", username)
+	} else {
+		fmt.Printf("Successfully created user: %s\n", username)
+	}
+
 	return nil
 }
 
 func UpdateDbUser(client *mongo.Client, username string, newPassword string, readDb []string, readWriteDb []string, isAdmin bool) error {
-
 	roles := translateRole(readDb, readWriteDb, isAdmin)
 	fmt.Printf("Roles: %v\n", roles)
 	updateUserCmd := bson.D{
@@ -91,7 +95,12 @@ func UpdateDbUser(client *mongo.Client, username string, newPassword string, rea
 		return err
 	}
 
-	fmt.Printf("Successfully updated user: %s\n", username)
+	if isAdmin {
+		fmt.Printf("Successfully updated admin: %s\n", username)
+	} else {
+		fmt.Printf("Successfully updated user: %s\n", username)
+	}
+
 	return nil
 }
 
