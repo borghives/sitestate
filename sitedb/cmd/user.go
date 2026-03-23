@@ -39,7 +39,7 @@ var setUserCmd = &cobra.Command{
 
 		err := UpsertDbUser(client, name, password, readDb, readWriteDb, false)
 		if err != nil {
-			log.Fatalf("Failed to set admin: %v", err)
+			log.Fatalf("Failed to set user: %v", err)
 		}
 	},
 }
