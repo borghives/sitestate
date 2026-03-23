@@ -2,7 +2,6 @@ package data
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net"
 	"net/url"
@@ -29,14 +28,12 @@ var (
 )
 
 func GetDbConnectionUriFromEnv() string {
-	mongoDBPwd := os.Getenv("SECRET_MONGODB_PWD")
-
 	mongoDBUriFmt := os.Getenv("MONGODB_URI")
 	if mongoDBUriFmt == "" {
 		log.Fatal("MONGODB_URI environment variable must be set")
 	}
 
-	return fmt.Sprintf(mongoDBUriFmt, mongoDBPwd)
+	return os.ExpandEnv(mongoDBUriFmt)
 
 }
 
