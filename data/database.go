@@ -3,14 +3,12 @@ package data
 import (
 	"context"
 	"log"
-	"net"
 	"os"
 	"sync"
 
 	"github.com/borghives/go-cmd-tool/shared"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	"golang.org/x/net/proxy"
 )
 
 type M bson.M
@@ -36,19 +34,6 @@ func GetDbConnectionUriFromEnv() string {
 
 }
 
-type mongoDialerWrapper struct {
-	dialer proxy.Dialer
-}
-
-func (m *mongoDialerWrapper) DialContext(ctx context.Context, network, addr string) (net.Conn, error) {
-	if cd, ok := m.dialer.(interface {
-		DialContext(context.Context, string, string) (net.Conn, error)
-	}); ok {
-		return cd.DialContext(ctx, network, addr)
-	}
-	return m.dialer.Dial(network, addr)
-}
-
 func InitDbConnection() {
 	once.Do(func() {
 		var err error
@@ -57,11 +42,11 @@ func InitDbConnection() {
 			log.Fatalf("Failed to load site config: %v\n", err)
 		}
 
-		log.Printf("Using MongoDB URI: %s", config.MongoDBUri)
-		log.Printf("Using MongoDB Auth URI: %s", config.MongoDBAuthUri)
+		config.MergeFromFile("site.env")
+
 		log.Printf("Using Project ID: %s", config.ProjectID)
-		log.Printf("Using Proxy Address: %s", config.ProxyAddress)
-		log.Printf("Proxy ENV: %s", os.Getenv("ALL_PROXY"))
+		log.Printf("Using Proxy Address [empty if not set]: %s", config.ProxyAddress)
+
 		client = shared.MustGetDbClient(&config)
 
 		log.Println("Connected to MongoDB!")
