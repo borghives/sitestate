@@ -53,7 +53,7 @@ func (m *mongoDialerWrapper) DialContext(ctx context.Context, network, addr stri
 func connectDbClient(connectionString string, proxyAddress string) (*mongo.Client, error) {
 	clientOptions := options.Client().ApplyURI(connectionString)
 	if proxyAddress != "" {
-		log.Println("Using proxy: ", proxyAddress)
+		log.Println("Using proxy2: ", proxyAddress)
 		proxyUrl, err := url.Parse(proxyAddress)
 		if err != nil {
 			return nil, err
@@ -72,6 +72,7 @@ func connectDbClient(connectionString string, proxyAddress string) (*mongo.Clien
 			err = client.Ping(context.Background(), nil)
 		}
 		if err == nil {
+			log.Printf("MongoDb Ping Success")
 			break // Success!
 		}
 		log.Printf("MongoDb Ping Failed.  Waiting for MongoDB... (attempt %d): %v", i+1, err)
