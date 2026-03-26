@@ -3,7 +3,7 @@ module github.com/borghives/sitestate
 go 1.26.1
 
 require (
-	github.com/borghives/go-cmd-tool v1.3.0
+	github.com/borghives/go-cmd-tool v1.4.0
 	github.com/borghives/sitepages v1.0.0
 	github.com/borghives/websession v0.2.0
 	go.mongodb.org/mongo-driver/v2 v2.5.0
@@ -13,7 +13,7 @@ require (
 	cloud.google.com/go/auth v0.19.0 // indirect
 	cloud.google.com/go/auth/oauth2adapt v0.2.8 // indirect
 	cloud.google.com/go/compute/metadata v0.9.0 // indirect
-	cloud.google.com/go/iam v1.5.3 // indirect
+	cloud.google.com/go/iam v1.6.0 // indirect
 	cloud.google.com/go/secretmanager v1.16.0 // indirect
 	github.com/borghives/entanglement v0.2.0 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
