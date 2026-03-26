@@ -32,7 +32,7 @@ func GetDbConnectionUriFromEnv() string {
 	if mongoDBUriFmt == "" {
 		log.Fatal("MONGODB_URI environment variable must be set")
 	}
-
+	log.Println("Using MongoDB URI: ", mongoDBUriFmt)
 	return os.ExpandEnv(mongoDBUriFmt)
 
 }
