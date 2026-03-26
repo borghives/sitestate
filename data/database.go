@@ -60,7 +60,7 @@ func InitDbConnection() {
 		log.Printf("Using MongoDB URI: %s", config.MongoDBUri)
 		log.Printf("Using MongoDB Auth URI: %s", config.MongoDBAuthUri)
 		log.Printf("Using Project ID: %s", config.ProjectID)
-		log.Printf("Using ENV MONGODB_URI: %s", os.Getenv("MONGODB_URI"))
+		log.Printf("Using Proxy Address: %s", config.ProxyAddress)
 
 		client = shared.MustGetDbClient(&config)
 
