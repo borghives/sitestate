@@ -1,12 +1,8 @@
 package data
 
 import (
-	"context"
-	"log"
-
 	"github.com/borghives/sitepages"
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 var SEA_DATABASE = "pieriansea"
@@ -27,61 +23,61 @@ type Pierian interface {
 type PierianApp struct{}
 
 func (p *PierianApp) Initialize() {
-	pageIndex := []mongo.IndexModel{
-		{
-			Keys: D{{Key: "link", Value: 1}},
-		},
-		{
-			Keys: D{{Key: "updated_time", Value: 1}},
-		},
-		{
-			Keys: D{{Key: "created_time", Value: -1}},
-		},
-	}
+	// pageIndex := []mongo.IndexModel{
+	// 	{
+	// 		Keys: D{{Key: "link", Value: 1}},
+	// 	},
+	// 	{
+	// 		Keys: D{{Key: "updated_time", Value: 1}},
+	// 	},
+	// 	{
+	// 		Keys: D{{Key: "created_time", Value: -1}},
+	// 	},
+	// }
 
-	log.Println("Creating indexes for page collection")
-	_, err := p.Page().Indexes().CreateMany(context.Background(), pageIndex)
-	if err != nil {
-		log.Printf("error creating indexes 0: %s", err)
-	}
+	// log.Println("Creating indexes for page collection")
+	// _, err := p.Page().Indexes().CreateMany(context.Background(), pageIndex)
+	// if err != nil {
+	// 	log.Printf("error creating indexes 0: %s", err)
+	// }
 
-	relationIndex := []mongo.IndexModel{
-		{
-			Keys: D{{Key: "subjid", Value: 1}},
-		},
-		{
-			Keys: D{{Key: "objid", Value: 1}},
-		},
-		{
-			Keys: D{{Key: "event_at", Value: -1}},
-		},
-		{
-			Keys: D{
-				{Key: "subjid", Value: 1},
-				{Key: "objid", Value: 1},
-			},
-		},
-		{
-			Keys: D{
-				{Key: "subjid", Value: 1},
-				{Key: "relation", Value: 1},
-			},
-		},
-		{
-			Keys: D{
-				{Key: "subjid", Value: 1},
-				{Key: "objid", Value: 1},
-				{Key: "relation", Value: 1},
-			},
-			Options: options.Index().SetUnique(true),
-		},
-	}
+	// relationIndex := []mongo.IndexModel{
+	// 	{
+	// 		Keys: D{{Key: "subjid", Value: 1}},
+	// 	},
+	// 	{
+	// 		Keys: D{{Key: "objid", Value: 1}},
+	// 	},
+	// 	{
+	// 		Keys: D{{Key: "event_at", Value: -1}},
+	// 	},
+	// 	{
+	// 		Keys: D{
+	// 			{Key: "subjid", Value: 1},
+	// 			{Key: "objid", Value: 1},
+	// 		},
+	// 	},
+	// 	{
+	// 		Keys: D{
+	// 			{Key: "subjid", Value: 1},
+	// 			{Key: "relation", Value: 1},
+	// 		},
+	// 	},
+	// 	{
+	// 		Keys: D{
+	// 			{Key: "subjid", Value: 1},
+	// 			{Key: "objid", Value: 1},
+	// 			{Key: "relation", Value: 1},
+	// 		},
+	// 		Options: options.Index().SetUnique(true),
+	// 	},
+	// }
 
-	log.Println("Creating indexes for relation collection")
-	_, err = p.Relation(sitepages.RelationGraphType_UserPage).Indexes().CreateMany(context.Background(), relationIndex)
-	if err != nil {
-		log.Printf("error creating indexes 0: %s", err)
-	}
+	// log.Println("Creating indexes for relation collection")
+	// _, err = p.Relation(sitepages.RelationGraphType_UserPage).Indexes().CreateMany(context.Background(), relationIndex)
+	// if err != nil {
+	// 	log.Printf("error creating indexes 0: %s", err)
+	// }
 }
 
 func (*PierianApp) Page() *mongo.Collection {

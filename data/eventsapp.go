@@ -1,9 +1,6 @@
 package data
 
 import (
-	"context"
-
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"go.mongodb.org/mongo-driver/v2/mongo/writeconcern"
@@ -34,16 +31,16 @@ type EventsApp struct {
 func (e *EventsApp) Initialize(topics []string) {
 	e.topics = topics
 
-	model := mongo.IndexModel{
-		Keys:    bson.D{{Key: "event_at", Value: 1}},
-		Options: options.Index().SetExpireAfterSeconds(12 * 30 * 24 * 60 * 60),
-	}
+	// model := mongo.IndexModel{
+	// 	Keys:    bson.D{{Key: "event_at", Value: 1}},
+	// 	Options: options.Index().SetExpireAfterSeconds(12 * 30 * 24 * 60 * 60),
+	// }
 
-	e.Default().Indexes().CreateOne(context.Background(), model)
+	// e.Default().Indexes().CreateOne(context.Background(), model)
 
-	for _, topic := range topics {
-		e.GetStoreByTopic(topic).Indexes().CreateOne(context.Background(), model)
-	}
+	// for _, topic := range topics {
+	// 	e.GetStoreByTopic(topic).Indexes().CreateOne(context.Background(), model)
+	// }
 }
 
 func (e *EventsApp) Default() *mongo.Collection {

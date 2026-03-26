@@ -1,12 +1,7 @@
 package data
 
 import (
-	"context"
-	"log"
-
-	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
-	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 var SEA_DATABASE_AUTH = "pierianauth"
@@ -25,25 +20,25 @@ type AuthenticationApp struct {
 }
 
 func (a *AuthenticationApp) Initialize() {
-	usernameIndex := mongo.IndexModel{
-		Keys:    bson.D{{Key: "name", Value: 1}},
-		Options: options.Index().SetUnique(true),
-	}
+	// usernameIndex := mongo.IndexModel{
+	// 	Keys:    bson.D{{Key: "name", Value: 1}},
+	// 	Options: options.Index().SetUnique(true),
+	// }
 
-	expireIndex := mongo.IndexModel{
-		Keys:    bson.D{{Key: "created_time", Value: 1}},
-		Options: options.Index().SetExpireAfterSeconds(30 * 24 * 60 * 60),
-	}
+	// expireIndex := mongo.IndexModel{
+	// 	Keys:    bson.D{{Key: "created_time", Value: 1}},
+	// 	Options: options.Index().SetExpireAfterSeconds(30 * 24 * 60 * 60),
+	// }
 
-	_, err := a.User().Indexes().CreateOne(context.Background(), usernameIndex)
-	if err != nil {
-		log.Printf("error creating indexes for user: %s", err)
-	}
+	// _, err := a.User().Indexes().CreateOne(context.Background(), usernameIndex)
+	// if err != nil {
+	// 	log.Printf("error creating indexes for user: %s", err)
+	// }
 
-	_, err = a.AuthSession().Indexes().CreateOne(context.Background(), expireIndex)
-	if err != nil {
-		log.Printf("error creating indexes for user: %s", err)
-	}
+	// _, err = a.AuthSession().Indexes().CreateOne(context.Background(), expireIndex)
+	// if err != nil {
+	// 	log.Printf("error creating indexes for user: %s", err)
+	// }
 }
 
 func (a AuthenticationApp) GetDatabase() *mongo.Database {
