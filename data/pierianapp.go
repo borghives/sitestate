@@ -38,6 +38,8 @@ func (p *PierianApp) Initialize() {
 			Keys: D{{Key: "created_time", Value: -1}},
 		},
 	}
+
+	log.Println("Creating indexes for page collection")
 	_, err := p.Page().Indexes().CreateMany(context.Background(), pageIndex)
 	if err != nil {
 		log.Printf("error creating indexes 0: %s", err)
@@ -75,6 +77,7 @@ func (p *PierianApp) Initialize() {
 		},
 	}
 
+	log.Println("Creating indexes for relation collection")
 	_, err = p.Relation(sitepages.RelationGraphType_UserPage).Indexes().CreateMany(context.Background(), relationIndex)
 	if err != nil {
 		log.Printf("error creating indexes 0: %s", err)
