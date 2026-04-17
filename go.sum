@@ -16,8 +16,8 @@ github.com/borghives/kosmos-go v1.2.0 h1:/JbfKYUzYDjXHbCk9a3Wo82GUgQmk3dQxrUVpsf
 github.com/borghives/kosmos-go v1.2.0/go.mod h1:b+aC5Vs389lqezrP0PetiJQDXj6LKqRq1DbFsqKRnLI=
 github.com/borghives/sitepages v1.0.0 h1:XduorQoqRHsi9r/9cbEiw0z7z6sKzAjbx58nXgoTW7w=
 github.com/borghives/sitepages v1.0.0/go.mod h1:EGNT/L50uhoaVqMgO3qPL2XpyuCc+2V+ndfD99RumVg=
-github.com/borghives/websession v0.2.0 h1:DmHL6rrz29ygfX1NJcEBIifRdlOxjVRWX7Z83dmn2qQ=
-github.com/borghives/websession v0.2.0/go.mod h1:HurRdQx5mAhHKRDHOnFUFsp30a8ttTM5jHBUHm7iRv0=
+github.com/borghives/websession v1.1.2 h1:z+2dlEpscjjIxxIySWkjCGRtLB6rNc1t2+MxqIsovKU=
+github.com/borghives/websession v1.1.2/go.mod h1:LoQSX0Ei0O819Y//pfKTiQFVON//g/HGr8XBH4hNEjM=
 github.com/cespare/xxhash/v2 v2.3.0 h1:UL815xU9SqsFlibzuggzjXhog7bL6oX9BbNZnL2UFvs=
 github.com/cespare/xxhash/v2 v2.3.0/go.mod h1:VGX0DQ3Q6kWi7AoAeZDth3/j3BFtOZR5XLFGgcrjCOs=
 github.com/cncf/xds/go v0.0.0-20251210132809-ee656c7534f5 h1:6xNmx7iTtyBRev0+D/Tv1FZd4SCg8axKApyNyRsAt/w=

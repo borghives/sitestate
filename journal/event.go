@@ -17,10 +17,10 @@ type EventStat struct {
 }
 
 type EventDocument struct {
-	ID           bson.ObjectID     `bson:"_id,omitempty"`
-	HostInfo     bson.ObjectID     `bson:"host_id"`
-	SessionId    bson.ObjectID     `bson:"session_id,omitempty"`
-	TargetId     bson.ObjectID     `bson:"target_id"`
+	ID           bson.ObjectID          `bson:"_id,omitempty"`
+	HostInfo     bson.ObjectID          `bson:"host_id"`
+	SessionId    bson.ObjectID          `bson:"session_id,omitempty"`
+	TargetId     bson.ObjectID          `bson:"target_id"`
 	Topic        string                 `bson:"topic"`
 	Statistics   []EventStat            `bson:"statistics,omitempty"`
 	EventAt      time.Time              `bson:"event_at"`
@@ -94,7 +94,7 @@ func (e *JournalEvent) ToDocument() EventDocument {
 
 	return EventDocument{
 		ID:           e.ID,
-		HostInfo:     bson.ObjectID(e.HostInfo.Id),
+		HostInfo:     bson.ObjectID(e.HostInfo.ID),
 		SessionId:    bson.ObjectID(e.Session.ID),
 		TargetId:     e.TargetId,
 		Topic:        e.Topic,

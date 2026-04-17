@@ -5,7 +5,7 @@ go 1.26.1
 require (
 	github.com/borghives/kosmos-go v1.2.0
 	github.com/borghives/sitepages v1.0.0
-	github.com/borghives/websession v0.2.0
+	github.com/borghives/websession v1.1.2
 	go.mongodb.org/mongo-driver/v2 v2.5.1
 )
 
