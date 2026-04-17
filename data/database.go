@@ -6,7 +6,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/borghives/go-cmd-tool/shared"
+	"github.com/borghives/kosmos-go"
 	"go.mongodb.org/mongo-driver/v2/bson"
 	"go.mongodb.org/mongo-driver/v2/mongo"
 )
@@ -17,11 +17,9 @@ type E bson.E
 type D bson.D
 
 var (
-	config         shared.SiteConfig
 	client         *mongo.Client
 	isDisconnected bool
 	once           sync.Once
-	err            error
 )
 
 func GetDbConnectionUriFromEnv() string {
@@ -36,18 +34,8 @@ func GetDbConnectionUriFromEnv() string {
 
 func InitDbConnection() {
 	once.Do(func() {
-		var err error
-		config, err = shared.LoadSiteConfig()
-		if err != nil {
-			log.Fatalf("Failed to load site config: %v\n", err)
-		}
 
-		config.MergeFromFile("site.env")
-
-		log.Printf("Using Project ID: %s", config.ProjectID)
-		log.Printf("Using Proxy Address [empty if not set]: %s", config.ProxyAddress)
-
-		client = shared.MustGetDbClient(&config)
+		client = kosmos.MustHaveObserverClient()
 
 		log.Println("Connected to MongoDB!")
 		isDisconnected = false
